@@ -9,6 +9,9 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
 #Create your views here.
+def l_page(request):
+    return render(request, "main.html")
+
 def index(request):
     if request.method == 'GET':
         categories = Categories.objects.all()
@@ -27,52 +30,42 @@ def category(request, id):
     return render(request, 'category.html', context)
 
 
-def log_reg(request):
-        if request.method == 'GET':
-            return render(request, 'log_reg.html')
-    
-def register(request):
-    if request.method == 'GET':
-        return render(request, 'log_reg.html')
-    elif request.method == 'POST':
-        errors = User.objects.register_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect('/logreg')
-        else:
-            hash_pw = bcrypt.hashpw(request.POST["password"].encode(), bcrypt.gensalt()).decode()
-            user_address = UserAddress.objects.create(country = request.POST["country"], city = request.POST["city"])
-            user = User.objects.create(first_name = request.POST["name"],last_name = request.POST["lastname"],
-            email = request.POST["email"], password = hash_pw, birthday = request.POST["birthday"], address = user_address, gender = request.POST["gender"])
-            
-            request.session["uid"] = user.id
+def index1(request):
+    return render(request, 'login.html')
 
-            return redirect('/')
-        
+def index2(request):
+    return render(request, 'signup.html')
+
+def create_user(request):
+    errors = User.objects.register_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/reg_signup')
+    else:
+        password = bcrypt.hashpw(request.POST['password'].encode(),bcrypt.gensalt()).decode()
+        user=User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'],email=request.POST['email'], password= password)
+        request.session['uid']= user.id
+        return redirect('/')
+    
 def login(request):
-    if request.method == 'GET':
-        return render(request, 'log_reg.html')
-    elif request.method == 'POST':
-        errors = User.objects.login_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
+    user = User.objects.filter(email=request.POST['email'])
+    if len(user) > 0:
+        logged_user = user[0]
+        if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
+            request.session['uid'] = logged_user.id
             return redirect('/')
         else:
-            user = User.objects.filter(email=request.POST['email'])
-            if user: 
-                logged_user = user[0] 
-                if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-                    request.session['uid'] = logged_user.id
-                    return redirect('/business/add')
-            else:
-                messages.error(request, 'Email and password did not match')
-            return redirect("/")
+            messages.error(request, 'Email and password did not match')
+            
+    else:
+        messages.error(request, 'Email is not registered')
+    return redirect('/reg_login')
+
 
 def create(request):
     if "uid" not in request.session:
-        return redirect('/')
+        return redirect('/reg_login')
     if request.method == 'GET':
         categories = Categories.objects.all()
         context = {

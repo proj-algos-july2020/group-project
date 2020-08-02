@@ -6,27 +6,23 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="icon" type="image/png" sizes="16x16" href="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/fav/favicon-16x16.png">
     <script src="https://kit.fontawesome.com/d2c28b4887.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/css/reviews.css" />
+    <!-- <link rel="stylesheet" href="/static/css/reviews.css" /> -->
     <title>Document</title>
     {% load static %}
-    <style>
-        /* Set the size of the div element that contains the map */
-       #map {
-         height: 400px;  /* The height is 400 pixels */
-         width: 100%;  /* The width is the width of the web page */
-        }
-     </style>
+    <link rel="stylesheet" href="{% static 'css/style4.css' %}">
 </head>
 <body>
     {%include 'layout.html'%}
-    
-    <div class="container">
+    <!-- <div class="container"> -->
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
         <div class="row">
             <div class="col-md-6">
                 <h3>{{ business.name }}</h3>
             </div>
-            <div class="col-md-6">
-                <a href="/">Return to Homepage</a>
+            <div class="col-md-auto">
+                <a href="/" class="btn btn-success">Return to Homepage</a>
             </div>
         </div>
         <div class="row">
@@ -96,7 +92,7 @@
                         <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
                     </fieldset>
                     <input class="form-control" type="textarea"  id="review" name='review' > 
-                    <button type="submit">Add Review</button>
+                    <button type="submit" class="btn btn-success">Add Review</button>
                 </div>
             </div>
         </form>
@@ -105,7 +101,7 @@
             <div class="col-md-6">
                 <div class="media">
                     <div class="media-body">      
-                        <h5><a href="/category/{{ category.id }}"> {{ category.name }} </a></h5> 
+                        <h5>Category:<a href="/category/{{ category.id }}"> {{ category.name }} </a></h5> 
                     </div>
                 </div>
             </div>
@@ -136,7 +132,7 @@ function initMap() {
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD__828Qgojw4A7ZDFxIlWP64jBnsMvlOs&callback=initMap">
     </script>
-    </div>
+    </div></div></div>
 
 </body>
 </html>

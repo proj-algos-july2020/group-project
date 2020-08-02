@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/fav/favicon-16x16.png">
     <script src="https://kit.fontawesome.com/d2c28b4887.js" crossorigin="anonymous"></script>
     <title>Add your business</title>
+    {% load static %}
+	<link rel="stylesheet" href="{% static 'css/style3.css' %}">
     <style>
         /* Set the size of the div element that contains the map */
        #map {
@@ -17,13 +19,15 @@
 </head>
 <body>
     {%include 'layout.html'%}
-    <div class="container">
-        <div class="row justify-content-md-center">
+    <!-- <div class="container">
+        <div class="row justify-content-md-center"> -->
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
             <div class="col-md-auto">
                 <a href="/" class="btn btn-success">Return to Homepage</a>
             </div>
-        </div>
-        <form action="/business/add" method="POST"  enctype="multipart/form-data">
+        <form action="/business/add" method="POST"   enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row">
                 <div class="col-sm-6">
@@ -53,13 +57,13 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label for="description">Service/Product Description</label>
                     <textarea class="form-control" type="text"  id="description" name='description'></textarea>
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="category">Business Category</label>
                     <select multiple class="form-control" id="category" name="categories">
                         {% for category in categories %}
@@ -82,7 +86,7 @@
                 </div>
             </div> -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                         <div class="form-check-inline">
                             <label class="form-check-label">
                                 <input type="checkbox" class="btn btn-secondary" name="working_days" value="1">Monday
@@ -126,13 +130,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="md-form">
                         <label for="work_from">From</label>
                         <input type="time" id="work_from" name='work_from' class="form-control">
                     </div>
                 </div>
-                <div class="col-md-3 "> 
+                <div class="col-md-6 "> 
                     <div class="md-form">
                         <label for="work_to">To</label>
                         <input type="time" id="work_to" name= 'work_to' class="form-control">
@@ -145,13 +149,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="md-form">
                         <label for="break_from">From</label>
                         <input type="time" id="break_from" name='break_from' class="form-control">
                     </div>
                 </div>
-                <div class="col-md-3"> 
+                <div class="col-md-6"> 
                     <div class="md-form">
                         <label for="break_to">To</label>
                         <input type="time" id="break_to" name='break_to' class="form-control">
@@ -226,6 +230,7 @@
                 </div>
             </div>
         </form>
+        </div></div></div>
     </div>
     <script src="../scripts/main.js"></script>
 </body>

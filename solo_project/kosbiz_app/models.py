@@ -31,20 +31,21 @@ class UserManager(models.Manager):
     def register_validator(self, post_data):
         errors = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-        if len(post_data['name']) < 1:
-            errors["name"] = "Name cannot be blank"
-        if len(post_data['lastname']) < 1:
-            errors["lastname"] = "Lastname cannot be blank"
+        if len(post_data['first_name']) < 1:
+            errors["first_name"] = "Name cannot be blank"
+        if len(post_data['last_name']) < 1:
+            errors["last_name"] = "Lastname cannot be blank"
         if len(post_data['email']) < 1:
             errors["email"] = "Email cannot be blank"
         if not EMAIL_REGEX.match(post_data['email']):
             errors["email"] = "Email format not correct"
         if len(post_data['password']) < 6:
             errors["password"] = "Password must be at least 6 characters"
-        if len(post_data['confirmpassword']) < 6:
-            errors["confirmpassword"] = "Password must be at least 6 characters"
-        if post_data['password'] != post_data['confirmpassword']:
-            errors["confirmpassword"] = "Password doesnt match"
+        if post_data['password'] != post_data['conf_password']:
+            errors['conf_password'] = 'Passwords should match'          
+        result= User.objects.filter(email=post_data['email'])
+        if len(result) > 0:
+            errors['email'] = 'Email has already been registered!'
         return errors
 
 class UserAddress(models.Model):
@@ -58,11 +59,11 @@ class User(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    birthday = models.DateField()
-    gender = models.IntegerField(choices=GENDER_CHOICES)
+    # birthday = models.DateField()
+    # gender = models.IntegerField(choices=GENDER_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    address = models.OneToOneField(UserAddress, on_delete=models.CASCADE)
+    # address = models.OneToOneField(UserAddress, on_delete=models.CASCADE)
     objects = UserManager()
 
 class Business(models.Model):

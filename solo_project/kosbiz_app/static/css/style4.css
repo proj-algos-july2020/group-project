@@ -21,7 +21,7 @@
     font-size:200%;
     line-height:1.2;
     color:#ddd;
-    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+    text-shadow:1px 1px rgb(168, 74, 74), 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating:not(:checked) > label:before {
@@ -53,7 +53,43 @@
     top:2px;
     left:2px;
 }
-
+  /* Set the size of the div element that contains the map */
+#map {
+    height: 400px;  /* The height is 400 pixels */
+    width: 100%;  /* The width is the width of the web page */
+   }
+   
+   
+.col-md-auto{
+    margin-left: 18px;
+}
+.btn-success{
+    background-color: #a90000;
+}
+.btn-success:hover{
+    background-color: #a90000;
+    opacity: 0.5;   
+}
+.col-md-6{
+    margin-right: 192px;
+}
+.row{
+    margin-bottom: 54px;
+}
+.justify-content-center{
+    margin-left: 2px;   
+}
+.justify-content-center a,.list-group a{
+    color:#a90000 ;
+}
+.media-body{
+    margin-top: 15px;
+}
+.media-body a{
+    text-decoration: none;
+    color:#a90000;
+}
+/*---------------------------------------------------------------------------------*/
 .limiter {
     width: 100%;
     margin: 0 auto;
@@ -77,8 +113,8 @@
   
   
   .wrap-login100 {
-      padding: 70px;
-    width: 560px;
+    padding: 70px;
+    width: 1060px;
     background: #fff;
     border-radius: 10px;
     position: relative;

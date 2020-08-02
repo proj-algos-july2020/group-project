@@ -18,14 +18,20 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
+    path('home',views.l_page),
     path('', views.index),
+    path('reg_login', views.index1),	 
+    path('reg_signup', views.index2),
+    path('create_user', views.create_user),
+    # path('success', views.success),  
+    path('login', views.login),
     path('business/add', views.create),
     path('business/addreview/<int:id>', views.addreview),
     path('business/edit/<int:id>', views.edit_business),
     path('business/<int:id>', views.show_business),
     path('category/<int:id>', views.category),
-    path('logreg', views.log_reg),
-    path('register', views.register),
-    path('login', views.login),
+    # path('logreg', views.log_reg),
+    # path('register', views.register),
+    # path('login', views.login),
     path('logout', views.logout),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
