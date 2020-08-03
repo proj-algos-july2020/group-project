@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/fav/favicon-16x16.png">
+    <script src="https://kit.fontawesome.com/d2c28b4887.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="/static/css/reviews.css" /> -->
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style4.css' %}">
+</head>
+<body>
+    {%include 'layout.html'%}
+    <!-- <div class="container"> -->
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>{{ business.name }}</h3>
+            </div>
+            <div class="col-md-auto">
+                <a href="/" class="btn btn-success">Return to Homepage</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush" >
+                    <li class="list-group-item">Telephone <b>{{ business.phone_number}}</b></li>
+                    <li class="list-group-item">E-mail <b>{{ business.email}}</b></li>
+                   <!--  <li class="list-group-item">Paying Method</li> -->
+                    <li class="list-group-item">Business Hours <b>{{ business.business_hours.work_from_hour}} - {{ business.business_hours.work_to_hour}} </b></li>
+                    <li class="list-group-item">Break Hours <b>{{ business.business_hours.break_from_hour}} - {{ business.business_hours.break_to_hour}} </b></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="/business/edit/{{business.id}}">Edit</a>  
+                    {% if business.user.id == request.session.uid %}
+                    <a href="/business/delete/{{business.id}}"> | Delete</a></li>
+                    {% endif %}
+                    <li class="list-group-item"><i class="fas fa-share-alt"></i>Share</li>
+                    <li class="list-group-item"><i class="fas fa-location-arrow"></i>Directions</li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <a href="#">E-mail<i class="fas fa-envelope"></i></a>
+            </div>
+            <div class="col-md-4">
+                <a href="tel:{{ business.phone_number }}"> <i class="fas fa-phone"></i> Phone {{ business.phone_number }}</a>
+            </div>
+        <div class="col-md-4">
+            <a href="#"> <i class="fas fa-home"></i>Address {{business.address.street}}, {{business.address.city}} </a>
+        </div>
+        </div>    
+        <div class="row">
+            {%  ifnotequal business.description  '' %}
+            <div style="width:100%;border: 1px solid #a90000;padding:10px;">
+                <p>{{ business.description }}</p>
+            </div>
+            {% endifnotequal %}
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <img src="{{ business.image_url }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <h3>Reviews</h3>
+            </div>
+        </div>
+        <div class="row">
+            {% for review in reviews %}
+                <div class="col-md-2" >
+                    <img src="/media/user.png" alt="">
+                    <p>{{ review.user.first_name }} {{ review.rating }} </p>
+                </div>   
+                <div class="col-md-10">   
+                    <p>{{ review.review }} </p>
+                </div>
+                {% endfor %}  
+            </div>
+        <form action="/business/addreview/{{ business.id }}" method="POST" >
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-12">
+                    <fieldset class="rating">
+                        <legend>Please rate:</legend>
+                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+                    </fieldset>
+                    <input class="form-control" type="textarea"  id="review" name='review' > 
+                    <button type="submit" class="btn btn-success">Add Review</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-6">
+                <div class="media">
+                    <div class="media-body">      
+                        <h5>Category:<a href="/category/{{ category.id }}"> {{ category.name }} </a></h5> 
+                    </div>
+                </div>
+            </div>
+                {% endfor %}  
+        </div>
+        <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+    <script>
+// Initialize and add the map
+var map;
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: Number('{{ business.latitude}}') , lng: Number('{{ business.longitude}}')};
+  console.log(uluru);
+  // The map, centered at Uluru
+  map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 8, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+}
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD__828Qgojw4A7ZDFxIlWP64jBnsMvlOs&callback=initMap">
+    </script>
+    </div></div></div>
+
+</body>
+</html>
