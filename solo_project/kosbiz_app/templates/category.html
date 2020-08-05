@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/fav/favicon-16x16.png">
+    <script src="https://kit.fontawesome.com/d2c28b4887.js" crossorigin="anonymous"></script>
+    <title>KosBiz</title>
+</head>
+<body>
+    {%include 'layout.html'%}
+    <main role="main">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Find all business locations</h1>
+                <p class="lead text-muted">You can find all bussiness and service locations by using keywords or browsing categories</p>
+            </div>
+        </section>
+        <div class="album py-5 bd-light">
+            <div class="container">
+                <div class="row">
+                    {% for business in businesses %}
+                    <div class="col-md-6">
+                        <div class="media">
+                            <div class="icon mr-3">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="media-body">
+                                <img src="{{ business.image_url }}"></img>
+                                <h3 class="h4"> <a href="/business/{{ business.id }}"> {{ business.name }} </a></h3>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}                   
+                </div>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/fav/favicon-16x16.png">
+    <script src="https://kit.fontawesome.com/d2c28b4887.js" crossorigin="anonymous"></script>
+    <title>Add your business</title>
+    {% load static %}
+	<link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <style>
+        /* Set the size of the div element that contains the map */
+       #map {
+         height: 400px;  /* The height is 400 pixels */
+         width: 100%;  /* The width is the width of the web page */
+        }
+     </style>
+</head>
+<body>
+    {%include 'layout.html'%}
+    <!-- <div class="container">
+        <div class="row justify-content-md-center"> -->
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+            <div class="col-md-auto">
+                <a href="/" class="btn btn-success">Return to Homepage</a>
+            </div>
+        <form action="/business/add" method="POST"   enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-sm-6">
+                    <label for="name" >Name of your Business</label>
+                    <input class="form-control" type="text"  id="name" name='name'>
+                </div>
+            </div>
+            <h3>Business Data</h3>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="address">Busines Address</label>
+                    <input class="form-control" type="text"  id="address" name='street'>
+                </div>
+                <div class="col-md-6">
+                    <label for="city">City</label>
+                    <input class="form-control" type="text"  id="city" name='city'>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="email">E-mail</label>
+                    <input class="form-control" type="text"  id="email" name='email'>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone_number">Telephone Number</label>
+                    <input class="form-control" type="number"  id="phone_number" name='phone_number'>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <label for="description">Service/Product Description</label>
+                    <textarea class="form-control" type="text"  id="description" name='description'></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="category">Business Category</label>
+                    <select multiple class="form-control" id="category" name="categories">
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <h3>Working Hours</h3>
+            <!-- <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                        <label class="form-check-label" for="gridRadios1">Open 24</label>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                    <label class="form-check-label" for="gridRadios2">Select working days</label>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="1">Monday
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="2">Tuesday
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="3">Wednesday
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="4">Thursday
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="5">Friday
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="6">Saturday
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="btn btn-secondary" name="working_days" value="7">Sunday
+                            </label>
+                        </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Working Hours</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <label for="work_from">From</label>
+                        <input type="time" id="work_from" name='work_from' class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6 "> 
+                    <div class="md-form">
+                        <label for="work_to">To</label>
+                        <input type="time" id="work_to" name= 'work_to' class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Breaking Hours</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="md-form">
+                        <label for="break_from">From</label>
+                        <input type="time" id="break_from" name='break_from' class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6"> 
+                    <div class="md-form">
+                        <label for="break_to">To</label>
+                        <input type="time" id="break_to" name='break_to' class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>Add images of your business</h5>          
+                        <div class="file-field">
+                            <div class="btn btn-primary btn-sm float-left">
+                                <span>Choose file</span>
+                                <input type="file" name="image">
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Add your business location</h3>
+                </div>
+            </div>
+            <input type="hidden" id="latitude" name="latitude" value="0">
+            <input type="hidden" id="longitude" name="longitude" value="0">
+            <!--The div element for the map -->
+            <div id="map"></div>
+            <script>
+        // Initialize and add the map
+        var map;
+        var marker;
+        function initMap() {
+          // The location of Uluru
+          var latitude = document.getElementById('latitude').value;
+          var longitude = document.getElementById('longitude').value;
+          //var uluru = {lat: latitude, lng: longitude};
+          // The map, centered at Uluru
+          map = new google.maps.Map(
+              document.getElementById('map'), {zoom: 8, center: {lat: 42.602634, lng: 20.902977}});
+          // The marker, positioned at Uluru
+          // var marker = new google.maps.Marker({position: uluru, map: map});
+          google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+          });
+        }
+        function placeMarker(location) {
+            if ( marker ) {
+                marker.setPosition(location);
+            } else {
+                marker = new google.maps.Marker({
+                position: location,
+                map: map
+                });
+            }
+          document.getElementById('latitude').value = location.lat();
+          document.getElementById('longitude').value = location.lng();
+          console.log(document.getElementById('latitude').value + " " + document.getElementById('longitude').value)
+        }
+            </script>
+            <!--Load the API from the specified URL
+            * The async attribute allows the browser to render the page while the API loads
+            * The key parameter will contain your own API key (which is not needed for this tutorial)
+            * The callback parameter executes the initMap() function
+            -->
+            <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD__828Qgojw4A7ZDFxIlWP64jBnsMvlOs&callback=initMap">
+            </script>
+
+            <div class="form-group mt-2 mb-10">
+                <div  class="col-md-6">
+                    <input type="submit" value='Login' class="btn">
+                </div>
+            </div>
+        </form>
+        </div></div></div>
+    </div>
+    <script src="../scripts/main.js"></script>
+</body>
+</html>
