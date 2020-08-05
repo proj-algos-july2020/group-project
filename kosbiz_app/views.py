@@ -62,7 +62,13 @@ def login(request):
         messages.error(request, 'Email is not registered')
     return redirect('/reg_login')
 
-
+def search(request):
+    query = request.GET['query']
+    results = Business.objects.filter(name__icontains=query)
+    context = {
+        'results': results
+    }
+    return render(request, 'results.html', context)
 def create(request):
     if "uid" not in request.session:
         return redirect('/reg_login')

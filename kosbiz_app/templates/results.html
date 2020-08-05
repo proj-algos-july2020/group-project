@@ -7,9 +7,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/fav/favicon-16x16.png">
     <script src="https://kit.fontawesome.com/d2c28b4887.js" crossorigin="anonymous"></script>
     <title>KosBiz</title>
-    {% load static %}
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+<style>
+    #business-pic{
+        width:80%;
+        height:80%;
+    }
+</style>
 <body>
     {%include 'layout.html'%}
     <main role="main">
@@ -20,23 +24,18 @@
             </div>
         </section>
         <div class="album py-5 bd-light">
-            <div class="container" style="padding: 0 150px;">
+            <div class="container">
                 <div class="row">
-                    {% for category in categories %}
+                    {% for business in results %}
                     <div class="col-md-6">
-                        <div class="media">
-                            <div class="icon mr-3">
-                                <i class="fas fa-arrow-alt-circle-right" style="color:lightblue;"></i>
-                            </div>
-                            <div class="media-body">
-                                <h3 class="h4"> <a href="/category/{{ category.id }}"> {{ category.name }} </a></h3>
-                            </div>
-                        </div>
+                        <a href="/business/{{ business.id }}">
+                                <img src="{{ business.image_url }}" id="business-pic"></img>
+                                <h4 style="margin-left:30%;">  {{ business.name }} </h4>
+                            </a>
                     </div>
                     {% endfor %}                   
                 </div>
             </div>
-        </div>
 
     </main>
 </body>
